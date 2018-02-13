@@ -26,15 +26,19 @@ class AppStoreValidator(object):
         else:
             self.url = 'https://buy.itunes.apple.com/verifyReceipt'
 
+    def _retrieve_from_apple_api(self, receipt_json):
+        try:
+            api_response = requests.post(self.url, json=receipt_json).json()
+        except (ValueError, RequestException) as e:
+            raise InAppValidationError('HTTP error: {}'.format(e))
+        return api_response
+
     def validate(self, receipt, password=None):
         receipt_json = {'receipt-data': receipt}
         if password:
             receipt_json.update({'password': password})
 
-        try:
-            api_response = requests.post(self.url, json=receipt_json).json()
-        except (ValueError, RequestException) as e:
-            raise InAppValidationError('HTTP error: {}'.format(e))
+        api_response = self._retrieve_from_apple_api(receipt_json=receipt_json)
 
         status = api_response['status']
 
