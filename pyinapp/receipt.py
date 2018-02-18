@@ -59,4 +59,4 @@ class PendingRenewalInfo(object):
                     original_transaction_id=pri.get('original_transaction_id'),
                     auto_renew_status=pri.get('auto_renew_status'),
                     expiration_intent=pri.get('expiration_intent'),
-                    product_id=pri.get('product_id') for pri in api_response.get('pending_renewal_info')]
+                    product_id=pri.get('product_id')) for pri in api_response.get('pending_renewal_info')]
