@@ -54,9 +54,9 @@ class PendingRenewalInfo(object):
     def from_appstore_response(cls, api_response):
         if "pending_renewal_info" not in api_response:
             return None
-        return [cls(auto_renew_product_id=pri['auto_renew_product_id'],
-                    is_in_billing_retry_period=pri['is_in_billing_retry_period'],
-                    original_transaction_id=pri['original_transaction_id'],
-                    auto_renew_status=pri['auto_renew_status'],
-                    expiration_intent=pri['expiration_intent'],
-                    product_id=pri['product_id']) for pri in api_response['pending_renewal_info']]
+        return [cls(auto_renew_product_id=pri.get('auto_renew_product_id'),
+                    is_in_billing_retry_period=pri.get('is_in_billing_retry_period'),
+                    original_transaction_id=pri.get('original_transaction_id'),
+                    auto_renew_status=pri.get('auto_renew_status'),
+                    expiration_intent=pri.get('expiration_intent'),
+                    product_id=pri.get('product_id') for pri in api_response.get('pending_renewal_info')]
